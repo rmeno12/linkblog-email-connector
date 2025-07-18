@@ -8,3 +8,7 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [observability]
 enabled = true
+
+[vars]
+GITHUB_REPO = "rmeno12.github.io"
+GITHUB_USER = "rmeno12"
