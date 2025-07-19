@@ -308,8 +308,12 @@ function makeReply(message: ForwardableEmailMessage) {
 	const subjectPrefix = sanitizedSubject.toLowerCase().startsWith('re:') ? '' : 'Re: ';
 
 	const reply = createMimeMessage();
-	reply.setHeader('In-Reply-To', originalMessageId);
-	reply.setHeader('References', references);
+	if (originalMessageId) {
+		reply.setHeader('In-Reply-To', originalMessageId);
+	}
+	if (references) {
+		reply.setHeader('References', references);
+	}
 	reply.setSubject(subjectPrefix + sanitizedSubject);
 	reply.setSender({ name: 'links-email-connector', addr: 'links@rahulmenon.dev' });
 	reply.setRecipient(message.from);
