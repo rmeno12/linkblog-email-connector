@@ -3,12 +3,17 @@
 
 name = "linkblog-email-connector"
 main = "src/index.ts"
-compatibility_date = "2025-07-15"
+compatibility_date = "2025-07-12"
 compatibility_flags = [ "nodejs_compat" ]
 
 [observability]
 enabled = true
 
+# Security: Use environment variables for sensitive data
 [vars]
 GITHUB_REPO = "rmeno12.github.io"
 GITHUB_USER = "rmeno12"
+
+# Note: GITHUB_TOKEN and LINKS_ALLOWED_SENDER should be set as secrets
+# Use: wrangler secret put GITHUB_TOKEN
+# Use: wrangler secret put LINKS_ALLOWED_SENDER
