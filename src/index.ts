@@ -21,9 +21,6 @@ export default {
 		if (message.from != env.LINKS_ALLOWED_SENDER) {
 			message.setReject('Address not allowed');
 		}
-		console.log(`Received email from: ${message.from}`);
-		console.log(`To: ${message.to}`);
-		console.log(`Subject: ${message.headers.get('subject')}`);
 
 		try {
 			const email = await PostalMime.parse(message.raw);
@@ -45,6 +42,7 @@ export default {
 
 function parse(body: string): LinkPost {
 	const data: LinkPost = { url: '', tags: [], body: '' };
+	body = body.replace(/url\s+/, 'url '); // handle newline case when html version inserts hyperlink
 	const lines = body.split('\n');
 	let isBody = false;
 	let bodyLines: string[] = [];
@@ -70,7 +68,10 @@ function parse(body: string): LinkPost {
 		}
 	}
 	data.body = bodyLines.join('\n').trim() + '\n';
-	if (data.url == '' || data.tags.length == 0 || data.body == '') {
+	data.tags.push('links');
+	if (data.url == '' || data.body == '') {
+		console.log(body);
+		console.log(data);
 		throw Error(`missing fields in post data: ${data}`);
 	}
 
